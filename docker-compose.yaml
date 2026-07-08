@@ -8,3 +8,10 @@ services:
       NODE_ENV: development
     ports:
       - 4200:4200
+  bracketbackend:
+    image: bracketbackend
+    build:
+      context: bracket-backend
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
