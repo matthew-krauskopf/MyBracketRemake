@@ -11,6 +11,8 @@ services:
     volumes:
       - ./bracket-frontend/src:/app/src
       - ./bracket-frontend/angular.json:/app/angular.json
+      - ./bracket-frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ./bracket-frontend/tsconfig.json:/app/tsconfig.json
   bracketbackend:
     image: bracketbackend
     build:
