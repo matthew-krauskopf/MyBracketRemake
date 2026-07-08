@@ -233,6 +233,8 @@
         </defs>
       </svg>
       <h1>Hello, {{ title() }}</h1>
+      <button (click)="makeBackendCall()">Click me!</button>
+      <p>{{ backendResponse() }}</p>
       <p>Congratulations! Your app is running. 🎉</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
