@@ -8,6 +8,9 @@ services:
       NODE_ENV: development
     ports:
       - 4200:4200
+    volumes:
+      - ./bracket-frontend/src:/app/src
+      - ./bracket-frontend/angular.json:/app/angular.json
   bracketbackend:
     image: bracketbackend
     build:
