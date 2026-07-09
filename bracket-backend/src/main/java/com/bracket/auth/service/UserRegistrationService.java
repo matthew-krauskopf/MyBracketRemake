@@ -1,5 +1,7 @@
 package com.bracket.auth.service;
 
+import java.time.Instant;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class UserRegistrationService {
     }
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setCreatedAt(Instant.now());
     return userRepository.save(user);
   }
 }
