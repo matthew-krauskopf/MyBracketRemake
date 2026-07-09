@@ -14,7 +14,7 @@ export class App {
   protected readonly backendResponse = signal('Click the button to call the backend.');
 
   protected makeBackendCall(): void {
-    this.http.get('http://localhost:8080/', { responseType: 'text' }).subscribe({
+    this.http.get('http://localhost:8080/test', { responseType: 'text' }).subscribe({
       next: (response) => {
         this.backendResponse.set(response);
       },
