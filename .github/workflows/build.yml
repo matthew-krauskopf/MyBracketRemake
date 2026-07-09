@@ -1,0 +1,59 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  frontend:
+    name: Frontend build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bracket-frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: bracket-frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run frontend tests
+        run: CI=true npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build frontend
+        run: npm run build
+
+  backend:
+    name: Backend build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bracket-backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Make Maven wrapper executable
+        run: chmod +x mvnw
+
+      - name: Run backend tests
+        run: ./mvnw -B test
+
+      - name: Build backend
+        run: ./mvnw -B -DskipTests package
