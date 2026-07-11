@@ -18,3 +18,8 @@ export const selectAuthError = createSelector(
   selectAuthState,
   (state) => state.error
 );
+
+export const selectRedirectUrl = createSelector(
+  selectAuthState,
+  (state) => state.redirectUrl
+);
