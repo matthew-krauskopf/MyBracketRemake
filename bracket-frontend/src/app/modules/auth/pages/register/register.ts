@@ -7,6 +7,9 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { AuthFacade } from '../../state/auth.facade';
 
@@ -19,7 +22,7 @@ const passwordsMatchValidator: ValidatorFn = (group: AbstractControl): Validatio
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })

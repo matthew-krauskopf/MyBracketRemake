@@ -1,5 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+@use '@angular/material' as mat;
+@import "tailwindcss";
+
+html {
+  @include mat.theme((color: mat.$violet-palette,
+      typography: Roboto,
+      density: 0));
+}
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
 html,
 body {
   height: 100%;
@@ -11,4 +24,10 @@ app-root {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+@for $i from 1 through 6 {
+  .smaller-inputs-#{$i} {
+    @include mat.all-component-densities($i * -1);
+  }
 }
