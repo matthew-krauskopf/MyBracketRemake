@@ -13,6 +13,12 @@ export interface AuthenticationResponse {
   token: string;
 }
 
+export interface RegistrationRequest {
+  username: string;
+  email: string;
+  password: string;
+}
+
 const TOKEN_KEY = 'auth_token';
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +29,10 @@ export class AuthService {
     return this.http
       .post<AuthenticationResponse>(`${environment.apiUrl}/api/auth/login`, request)
       .pipe(tap((response) => this.setToken(response.token)));
+  }
+
+  register(request: RegistrationRequest): Observable<void> {
+    return this.http.post<void>(`${environment.apiUrl}/api/auth/register`, request);
   }
 
   logout(): void {

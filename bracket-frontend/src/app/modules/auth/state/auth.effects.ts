@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -9,6 +10,9 @@ import { selectRedirectUrl } from './auth.selectors';
 import { AuthService } from './auth.service';
 import { AuthState } from './auth.state';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+const SNACKBAR_DURATION_MS = 5000;
 
 @Injectable()
 export class AuthEffects {
@@ -16,6 +20,7 @@ export class AuthEffects {
   private readonly authService = inject(AuthService);
   private readonly store = inject(Store<{ auth: AuthState }>);
   private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly login$ = createEffect(() =>
     this.actions$.pipe(
@@ -51,6 +56,45 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logoutSuccess),
         map(() => this.router.navigate(['/login']))
+      ),
+    { dispatch: false }
+  );
+
+  readonly register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      switchMap(({ request }) =>
+        this.authService.register(request).pipe(
+          map(() => AuthActions.registerSuccess()),
+          catchError((err: HttpErrorResponse) =>
+            of(AuthActions.registerFailure({ error: err.error?.message ?? 'Unable to create account. Please try again.' }))
+          )
+        )
+      )
+    )
+  );
+
+  registerSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(() => {
+          this.snackBar.open('Account created successfully. Please log in.', 'Close', {
+            duration: SNACKBAR_DURATION_MS
+          });
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  registerFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerFailure),
+        tap(({ error }) => {
+          this.snackBar.open(error, 'Close', { duration: SNACKBAR_DURATION_MS });
+        })
       ),
     { dispatch: false }
   );

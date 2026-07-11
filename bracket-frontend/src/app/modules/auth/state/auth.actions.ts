@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { AuthenticationRequest } from './auth.service';
+import { AuthenticationRequest, RegistrationRequest } from './auth.service';
 
 export const AuthActions = {
   login: createAction('[Auth] Login', props<{ request: AuthenticationRequest }>()),
@@ -9,5 +9,8 @@ export const AuthActions = {
   logout: createAction('[Auth] Logout'),
   logoutSuccess: createAction('[Auth] Logout Success'),
   setRedirectUrl: createAction('[Auth] Set Redirect Url', props<{ redirectUrl: string }>()),
-  clearRedirectUrl: createAction('[Auth] Clear Redirect Url')
+  clearRedirectUrl: createAction('[Auth] Clear Redirect Url'),
+  register: createAction('[Auth] Register', props<{ request: RegistrationRequest }>()),
+  registerSuccess: createAction('[Auth] Register Success'),
+  registerFailure: createAction('[Auth] Register Failure', props<{ error: string }>())
 };

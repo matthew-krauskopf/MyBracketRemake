@@ -14,4 +14,6 @@
   <button type="submit" [disabled]="form.invalid || authFacade.isLoading()">
     {{ authFacade.isLoading() ? 'Logging in…' : 'Log in' }}
   </button>
+
+  <button type="button" class="secondary" (click)="onCreateAccount()">Create account</button>
 </form>
