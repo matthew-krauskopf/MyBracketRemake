@@ -15,8 +15,8 @@ export class Login {
   readonly authFacade = inject(AuthFacade);
 
   protected readonly form = this.fb.nonNullable.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
+    username: ['testuser', Validators.required],
+    password: ['password123', Validators.required]
   });
 
   protected onSubmit(): void {

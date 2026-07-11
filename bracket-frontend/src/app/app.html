@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+@if (isAuthenticated()) {
+  <app-banner />
+}
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>
