@@ -60,6 +60,12 @@ test.describe('Login form', () => {
     await expect(page.locator('p')).toContainText('settings');
   });
 
+  test('banner is not shown on the login page', async ({ page }) => {
+    await page.goto('/login');
+
+    await expect(page.locator('app-banner')).toHaveCount(0);
+  });
+
   test('failed login shows an error message and stays on the login page', async ({ page }) => {
     await page.route(LOGIN_API_URL, async (route) => {
       await route.fulfill({
