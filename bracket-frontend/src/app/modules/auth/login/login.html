@@ -7,11 +7,11 @@
   <label for="password">Password</label>
   <input id="password" type="password" formControlName="password" autocomplete="current-password" />
 
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
+  @if (authFacade.error(); as err) {
+    <p class="error">{{ err }}</p>
   }
 
-  <button type="submit" [disabled]="form.invalid || submitting()">
-    {{ submitting() ? 'Logging in…' : 'Log in' }}
+  <button type="submit" [disabled]="form.invalid || authFacade.isLoading()">
+    {{ authFacade.isLoading() ? 'Logging in…' : 'Log in' }}
   </button>
 </form>

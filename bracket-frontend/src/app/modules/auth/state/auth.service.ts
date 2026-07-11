@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 export interface AuthenticationRequest {
   username: string;
@@ -18,7 +18,6 @@ const TOKEN_KEY = 'auth_token';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  readonly isAuthenticated = signal(!!this.getToken());
 
   login(request: AuthenticationRequest): Observable<AuthenticationResponse> {
     return this.http
@@ -28,7 +27,6 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(TOKEN_KEY);
-    this.isAuthenticated.set(false);
   }
 
   getToken(): string | null {
@@ -37,6 +35,5 @@ export class AuthService {
 
   private setToken(token: string): void {
     localStorage.setItem(TOKEN_KEY, token);
-    this.isAuthenticated.set(true);
   }
 }
