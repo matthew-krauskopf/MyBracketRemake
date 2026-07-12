@@ -4,7 +4,6 @@ import {
   FormBuilder,
   ReactiveFormsModule,
   ValidationErrors,
-  ValidatorFn,
   Validators
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,11 +12,23 @@ import { MatInputModule } from '@angular/material/input';
 
 import { AuthFacade } from '../../state/auth.facade';
 
-const passwordsMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
-  const password = group.get('password')?.value;
-  const confirmPassword = group.get('confirmPassword')?.value;
-  return password === confirmPassword ? null : { passwordMismatch: true };
-};
+export const checkPasswords = () => {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const password = formGroup.get('password');
+    const confirmPassword = formGroup.get('confirmPassword');
+
+    if (!password?.value || !confirmPassword?.value) {
+      return null; // Don't validate if fields are empty
+    }
+
+    if (password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({passwordMismatch: true})
+    } else {
+      confirmPassword.setErrors(null);
+    }
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-register',
@@ -35,9 +46,9 @@ export class Register {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', [Validators.required]]
     },
-    { validators: passwordsMatchValidator }
+    { validators: checkPasswords() }
   );
 
   protected onSubmit(): void {

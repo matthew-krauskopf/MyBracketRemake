@@ -60,6 +60,14 @@ test.describe('Login form', () => {
     await expect(page.locator('p')).toContainText('settings');
   });
 
+  test('clicking "Create account" navigates to the create-account page', async ({ page }) => {
+    await page.goto('/login');
+
+    await page.getByRole('button', { name: 'Create account' }).click();
+
+    await expect(page).toHaveURL(/\/create-account$/);
+  });
+
   test('banner is not shown on the login page', async ({ page }) => {
     await page.goto('/login');
 
