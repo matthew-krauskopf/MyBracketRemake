@@ -1,0 +1,23 @@
+.register-page {
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  padding: 4rem 1rem;
+  background: #747474;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  height: fit-content;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+
+  button {
+    width: 100%;
+  }
+}

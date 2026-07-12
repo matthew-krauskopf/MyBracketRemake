@@ -23,3 +23,8 @@ export const selectRedirectUrl = createSelector(
   selectAuthState,
   (state) => state.redirectUrl
 );
+
+export const selectRegisterLoading = createSelector(
+  selectAuthState,
+  (state) => state.registerLoading
+);
