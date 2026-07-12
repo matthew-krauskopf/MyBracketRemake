@@ -67,7 +67,11 @@ export class AuthEffects {
         this.authService.register(request).pipe(
           map(() => AuthActions.registerSuccess()),
           catchError((err: HttpErrorResponse) =>
-            of(AuthActions.registerFailure({ error: err.error?.message ?? 'Unable to create account. Please try again.' }))
+            of(
+              AuthActions.registerFailure({
+                error: err.error?.message ?? 'Unable to create account. Please try again.'
+              })
+            )
           )
         )
       )
